@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'lastname',
+        'phone',
         'email',
         'password',
+
     ];
 
     /**
@@ -33,6 +36,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function user(){
+        return $this->hasone(Cv::class);
+    }
     /**
      * Get the attributes that should be cast.
      *
