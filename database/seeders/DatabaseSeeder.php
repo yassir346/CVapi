@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Cv;
+use App\Models\Competence;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
         Cv::factory(10)->create();
+        Competence::factory(10)->create();
 
 
         // User::factory()->create([

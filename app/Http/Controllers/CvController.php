@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cv;
 use App\Http\Requests\StoreCvRequest;
 use App\Http\Requests\UpdateCvRequest;
+// use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 
 class CvController extends Controller
 {
@@ -14,14 +16,21 @@ class CvController extends Controller
     public function index()
     {
         //
+        $cv = Cv::all();
+        return response()->json(['cv' => $cv]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        if ($request->size <= 5) {
+            Cv::create($request->all());
+        }
+        
+        return response()->json(['message', 'cv created']);
     }
 
     /**
@@ -35,9 +44,14 @@ class CvController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cv $cv)
+    public function show(Request $request)
     {
-        //
+
+        $cv = Cv::findOrFail($request->id);
+
+        return response()->json([
+            "message" => $cv
+        ]);
     }
 
     /**
@@ -46,21 +60,28 @@ class CvController extends Controller
     public function edit(Cv $cv)
     {
         //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCvRequest $request, Cv $cv)
+    public function update($id, Request $request)
     {
-        //
+        $cv = Cv::find($id);
+        $cv->update(request()->all());
+        return response()->json(["message", "this is updated"]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cv $cv)
+    public function destroy(Request $request, $id)
     {
-        //
+        // return ["message"=> $request];
+        $cv = Cv::find($id);
+        $cv->delete();
+        return response()->json(["message", "deleted"]);
+        
     }
 }
